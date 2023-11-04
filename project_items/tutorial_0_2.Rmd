@@ -1,0 +1,201 @@
+---
+title: | 
+  ![](https://i.imgur.com/SWWUQpP.png){width=500px style="display: block; margin:0 auto;"}
+  Tutorial 2: Objetos e Variáveis no R
+author: "Victor Lobato dos Santos"
+output:
+  html_document:
+    highlight: haddock
+    includes:
+      in_header: "fever_icon.html"
+    theme: flatly
+    number_sections: yes
+    toc: yes
+    toc_float:
+      collapsed: yes
+      smooth_scroll: yes
+  pdf_document:
+    toc: yes
+---
+
+<div class="text-justify">  
+# O que são Objetos no R  
+
+Na linguagem R, tudo que criamos é um objeto, seja ele um Vetor (vector), uma Matrix (matrix), uma tabela (data.frame) ou uma lista (list), este objetos, são partes essenciais para realizar uma análise. O R consegue interpretar diferentes tipos de objetos, e aqui, iremos entender melhor com estes objetos funcionam.
+
+## Vetor  
+Vetores são conjuntos **unidimensionais**, que compõem valores de uma mesma classe, ou seja, o vetor armazena uma sequência de elementos de um mesmo tipo. Para criar um vetor, podemos utilizar o sinal de **=** ou **<-**.
+Dentre as classes utilizadas nos vetores temos:  
+
+* **Numeric**: São compostos por números reais ou números inteiros;  
+
+* **Integer**: É uma classe representada apenas por números inteiros;  
+
+* **Logical (Booleanos)**: É uma classe representada por valres lógicos, ou seja, que podem ser **TRUE** (verdadeiro) ou **FALSE** (falso).  
+
+* **Character (strings)**: É representado por *strings*, que são uma sequência de caracteres / frases, geralmente utilizadas entre àspas ( " ").  
+
+Devido ao fato de vetores serem conjuntos unidemensionais, todos os elementos encontrado dentro de um vetor, deve pertencer a uma mesma classe.  
+Vamos visualizar alguns exemplos de vetores:  
+
+```{r, warning=FALSE, message=FALSE}
+# Vetor Numérico
+
+vetor_num <- c(1, 2, 3, 4, 5)
+class(vetor_num)
+
+#Vetor de caracteres
+
+vetor_char <- c("Hymenoptera", "Coleoptera", "Lepidoptera" )
+class(vetor_char)
+
+# Vetor Lógico
+
+vetor_log <- c(TRUE, TRUE, FALSE, TRUE)
+class(vetor_log)
+
+```
+## Matriz  
+Matrizes são um tipo de conjunto bidimensional que atribuem valores da mesma classe, ela pode ser apresentada em linhas e colunas, que irão armazenar valores de uma mesma classe, geralmente sendo numéricos. Sua diferença para com os vetores esta no fato de que diferente de um vetor que é unidimensional, dentro de uma matriz é possível organizar informações de maneira tabular, auxiliando no desenvolvimento de operações estatísticas.  
+A maneira comum de se criar uma matriz é utilizando a função `matrix()`, que interpreta os valores presentes dentro de um vetor, para formar uma matriz com um número de linhas e colunas específicas. A criação de uma matriz a partir de um vetor, deve ser feita de forma sequencial, de modo que as colunas serão apresentadas da esquerda para  adireita e as linhas de cima para baixo.  
+  
+```{r, message=FALSE, warning=FALSE}
+matriz <- matrix(c(10, 20, 30, 40, 50, 60, 70, 80, 90), nrow = 3, ncol = 3)
+
+matriz
+
+```
+  
+## Tabelas (data.frame)  
+Tabelas também são um tipo de conjunto bidimensional de valores, que por sua vez são separados em linhas e colunas e de forma que todos os valores de determinada coluna possua um tipo de classe. As tabelas, conhecidas aqui por **data.frame** é utilizada para organizar os dados de maneira tabular, e, apesar da semelhança com a matriz, um data.frame pode conter diferentes tipos de dados em cada coluna, sejam eles numéricos, lógicos, caracteres, dentre outros. Graças a sua flexibilidade, data.frames são amplamente utilizados em análises de dados.  
+  
+A maneira mais comum presente no Rbase para criar um data.frame, é a partir da função `data.frame()`, de forma que cada objeto criado, irá representar uma coluna da tabela. Vale lembrar que geralmente, as colunas devem conter o mesmo comprimento, e caso exista campos vazios, existe a possibilidade de te retornar erros durante sua execução.  
+  
+Vamos criar um exemplo de data frame:  
+
+```{r, warning=FALSE, message=FALSE}
+
+#Criandoo data frame
+
+ordem <- c("Hymenoptera", "Coleoptera", "Lepidoptera")
+registros <- c(350, 100, 75)
+pontos <- c("Ponto 1", "Ponto 2", "Ponto 3")
+
+tabela_ordens <- data.frame(ordem, registros, pontos)
+
+tabela_ordens
+```
+
+Podemos também, acessar deteminados dados dentro de um data frame, por exemplo, suponha que você quer acessar a coluna referente aos registros e depois acessar quantos registros tiveram para a linha 2:  
+  
+```{r, message=FALSE, warning=FALSE}
+
+# Acessando a coluna "registros"
+coluna_registros <- tabela_ordens$registros
+coluna_registros
+
+#Acessando a quantidade de registros da linha 2
+
+registros_linha_2 <- tabela_ordens$registros[2]
+registros_linha_2
+```
+Observe que para acessar uma coluna de nosso data frame, utilizamos o sinal **$**, e para acessar determinado valor de uma linha, utilizamos o colchecetes **[]**.  
+  
+## Listas (List)  
+As listas são um conjunto de dados que te permite armazenar objetos que não sejam de uma única classe, ou tamanhos. Diferente da matriz e do vetor anteriormente vistos, em que os elementos devem ser pertencentes ao mesmo tipo de classe. Uma lista pode conter, vetores, matrizes, dataframes, e até mesmo outras listas, em um mesmo conjunto. A maneira mais comum presente no Rbase para atribuir uma lista, é através da função `list()`
+  
+Vamos criar um exemplo do que poderia ser uma lista:  
+
+```{r, message=FALSE, warning=FALSE}
+#criando uma lista 
+
+lista <- list(ordem = "Hymenoptera",
+              registro = 350,
+              ponto = "ponto 1",
+              familias = c("ichneumonidae", "vespidae", "apoidea"),
+              coleta_ativa = TRUE)
+
+lista
+```
+
+
+# O que são variáveis  
+
+As variáveis são tipos de objetos que permitem realizar nelas, o armazenamento de valores podendo ser eles, números, textos, vetores, matrizes, etc. E para cada tipo de variável atribuída, existem regras que devem ser seguidas pois terão impactos diretos em suas análises.  
+ 
+Primeiramente, para definirmos uma varíavel, utilizamos o sinal `=` ou `<-`, como por exemplo:  
+```{r, message=FALSE, warning=FALSE}
+var1 <- 10
+var2 <- "sou um texto"
+```
+  
+Observe que, no exemplo apresentado, a variável **var1** possui um valor numérico e a variável **var2** possui um valor em formato de texto (**string**).Ao criar essas duas variáveis, a IDE do RStudio automaticamente irá classificalas de acordo com o seu tipo.  
+Podemos visualizar a classe de uma variável através da função `class()`:  
+```{r, message=FALSE, warning=FALSE}
+class(var1) ; class(var2)
+```
+  
+# Introdução a Operações Aritméticas  
+  
+Dentro do R, você descubrirá e passará a usar diversos tipos de pacotes que irão facilitar suas análises, mas antes, é importante se familiarizar a como realizar operações aritméticas de forma básica.  
+Assim como diversas outras linguagens, o R também oferece suporte a realização de operações aritméticas a partir de caractéres comumente utilizados para a mesma. Vamos identificar aqui, algumas dessas operações.  
+```{r, message=FALSE, warning=FALSE}
+#Soma
+soma <- 10 + 5 + 5
+soma
+
+#Subtração  
+subtracao <- 20 - 5 - 5
+subtracao
+
+#Multiplicação
+multiplicacao <- 10 * 2
+multiplicacao
+
+# Divisão
+divisao <- 20 / 2
+divisao
+
+#Exponenciação
+
+expoenenciacao <- 10^2
+expoenenciacao
+```
+Esses são apenas alguns exemplos de operações aritméticas básicas que você pode realizar dentro do R, existem diversos outros tipos de cálculos que também podem serem feitos sem o uso de pacotes e funções.  
+
+# Funções  
+
+O R oferece um número muito extenso de funções para serem usadas nos mais diferentes tipos de análises e manipulações de dados. De forma resumida, as funções são linhas de códigos que te permitem agrupar comandos dentro de um único conjunto, o que se torna de grande ajuda durante o trabalho dentro do R. Possivelmente enquanto utilizar o R, você não precisará criar fórmulas extensas para realizar um cálculo ou uma análise, pois já existirá uma função para resolver seu problema.  
+É possível inclusive, criar funções, mas neste momento, não focaremos no processo de criação de funções. Iremos apenas ver algumas funções básicas para entender melhor como as funções são executadas no R como por exemplo, funções para somar, arredondar, descobrir uma raiz, etc. 
+
+  
+```{r, message=FALSE, warning=FALSE}
+#Criando um vetor para aplicar funções
+
+vet_func <- c(3, 3, 3)
+
+# Função para soma: sum()
+sum(vet_func)
+
+# Função para descobrir o comprimento do nosso vetor, ou seja, quantos elementos existem no vetor: length()
+
+length(vet_func)
+
+# Função para encontrar a média de um vetor: mean()  
+mean(vet_func)
+
+# Função para calcular a raiz quadrada de um vetor: sqrt()
+vet_raiz <- c(9)
+
+sqrt(vet_raiz)
+
+```
+Veja que, neste exemplo, criamos vetores com números inteiros e em seguida aplicamos algumas funções para realizar cálculos simples, como soma (`sum()`), média (`mean()`), raiz quadrada (`sqrt()`) e para descobrir o comprimento de um vetor (`length`). Existem uma quantidade imensa de funções para serem exploradas e utilizadas no R, essas são apenas uma parcela mínima do que é possível ser feito aqui.  
+
+# Referências
+
+* R Core Team (2022). R: A language and environment for statistical computing. R
+  Foundation for Statistical Computing, Vienna, Austria. URL <https://www.R-project.org/>.
+
+
+</div>
